@@ -39,15 +39,15 @@ $members = []
 $contributors = []
 $source = "Fakedaten_" + $now.strftime('%Y-%m-%d')
 
-$contact_count = 1000						# number of contacts to generate
+$contact_count = 3000						# number of contacts to generate
 $organization_count = 300					# number of organizations to generate. every organization gets an extra contact
 $contribution_member = 0.03					# 3% of contacts will be members
-$contribution_small = 0.02					# 2% of members will give small amounts at irregular times
-$contribution_big = 0.01					# 1% of members will give large amounts of money at irregular times
-$contribution_onetime = 0.02				# 2% of members will be one time only donors 
+$contribution_small = 0.20					# 20% of members will give small amounts at irregular times
+$contribution_big = 0.03					# 3% of members will give large amounts of money at irregular times
+$contribution_onetime = 0.05				# 5% of members will be one time only donors 
 
 $contribution_timespan = 60					# payments reach up to 60 months (5 years) back
-$contribution_membership_fee = "8,00"		# 8,-€ membership fee
+$contribution_membership_fee = "50,00"		# 8,-€ membership fee
 $contribution_membership_type = "Mitglied"	# set type
 
 
