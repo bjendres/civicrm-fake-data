@@ -39,7 +39,7 @@ $members = []
 $contributors = []
 $source = "Fakedaten_" + $now.strftime('%Y-%m-%d')
 
-$contact_count = 3000						# number of contacts to generate
+$contact_count = 1200						# number of contacts to generate
 $organization_count = 300					# number of organizations to generate. every organization gets an extra contact
 $contribution_member = 0.03					# 3% of contacts will be members
 $contribution_small = 0.20					# 20% of members will give small amounts at irregular times
@@ -221,7 +221,7 @@ for email in $contributors
 		contribFile.write( '"' + date.strftime('%Y-%m-%d') + '",')
 		contribFile.write( '"' + amount.to_s + ',00",')
 		contribFile.write( '"' + $source + '",')
-		contribFile.write( '"Completed"')
+		contribFile.write( '"abgeschlossen"')
 		contribFile.write( "\n" )
 	end		# one time donor
 end
