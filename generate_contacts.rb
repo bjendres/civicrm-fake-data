@@ -40,6 +40,8 @@ $members = []
 $contributors = []
 $source = "Fakedaten_" + $now.strftime('%Y-%m-%d')
 
+$max_entries_per_file = 2000				# files will be rotated when max-entries are reached
+
 $contact_count = 1200						# number of contacts to generate
 $organization_count = 300					# number of organizations to generate. every organization gets an extra contact
 $contribution_member = 0.03					# 3% of contacts will be members
@@ -52,15 +54,26 @@ $contribution_membership_fee = "50,00"		# 8,-€ membership fee
 $contribution_membership_type = "Mitglied"	# set type
 
 
-
-
+def init_file(filename, header)
+	file = File::open(filename, mode="w")
+	file.write(header)
+	file.write("\n")
+	return file
+end
 
 # write contacts
 print "Writing 'contacts.csv'..."
-contactsFile = File::open("contacts.csv", mode="w") 
-contactsFile.write('"Vorname","Nachname","Email","Straße","PLZ","Ort","Land","Telefon(home)","Telefon(mobil)"')
-contactsFile.write("\n")
+filename = "contacts.csv"
+header = '"Vorname","Nachname","Email","Straße","PLZ","Ort","Land","Telefon(home)","Telefon(mobil)"'
+contactsFile = init_file(filename, header)
 for i in 1..$contact_count
+	# rotate the file
+	if i % $max_entries_per_file == 0
+		contactsFile.close()
+		extension = '.' + (i / $max_entries_per_file).to_s
+		contactsFile = init_file(filename + extension, header)
+	end
+
 	first_name = Faker::Name.first_name
 	last_name = Faker::Name.last_name
 	
@@ -88,10 +101,17 @@ print "done.\n"
 
 # write organizations
 print "Writing 'organizations.csv'..."
-organizationsFile = File::open("organizations.csv", mode="w") 
-organizationsFile.write('"Email","Name","Straße","PLZ","Ort","Land","Telefon","Fax","Website","Quelle","Ansprechpartner_Vorname","Ansprechpartner_Nachname","Ansprechpartner_Email","Ansprechpartner_Straße","Ansprechpartner_PLZ","Ansprechpartner_Ort","Ansprechpartner_Land","Ansprechpartner_Telefon(home)","Ansprechpartner_Berufsbezeichnung","Ansprechpartner_Quelle"')
-organizationsFile.write("\n")
+filename = "organizations.csv"
+header = '"Email","Name","Straße","PLZ","Ort","Land","Telefon","Fax","Website","Quelle","Ansprechpartner_Vorname","Ansprechpartner_Nachname","Ansprechpartner_Email","Ansprechpartner_Straße","Ansprechpartner_PLZ","Ansprechpartner_Ort","Ansprechpartner_Land","Ansprechpartner_Telefon(home)","Ansprechpartner_Berufsbezeichnung","Ansprechpartner_Quelle"'
+organizationsFile = init_file(filename, header)
 for i in 1..$organization_count
+	# rotate the file
+	if i % $max_entries_per_file == 0
+		organizationsFile.close()
+		extension = '.' + (i / $max_entries_per_file).to_s
+		organizationsFile = init_file(filename + extension, header)
+	end
+
 	cname = Faker::Company.name
 	zipcode = Faker::Address.zip_code
 	domain = Faker::Internet.domain_name
@@ -143,11 +163,20 @@ print "done.\n"
 
 # write contributions
 print "Writing 'contributions.csv'..."
-contribFile = File::open("contributions.csv", mode="w") 
-contribFile.write('"Email","Art der Zuwendung","Eingangsdatum","Gesamtbetrag","Herkunft","Betragsstatus"')
-contribFile.write("\n")
+filename = "contributions.csv"
+header = '"Email","Art der Zuwendung","Eingangsdatum","Gesamtbetrag","Herkunft","Betragsstatus"'
+contribFile = init_file(filename, header)
+i = 0
 
 for email in $contributors
+	i += 1
+	# rotate the file
+	if i % $max_entries_per_file == 0
+		contribFile.close()
+		extension = '.' + (i / $max_entries_per_file).to_s
+		contribFile = init_file(filename + extension, header)
+	end
+
 	if SecureRandom.random_number <= $contribution_member
 		# this is a member
 		# since_months must not be 0
@@ -235,11 +264,20 @@ print "done.\n"
 
 # write members
 print "Writing 'memberships.csv'..."
-memberFile = File::open("memberships.csv", mode="w") 
-memberFile.write('"Email","Mitglied seit","Ablaufdatum der Mitgliedschaft","Mitgliedstyp","Bezugsquelle"')
-memberFile.write("\n")
+filename = "memberships.csv"
+header = '"Email","Mitglied seit","Ablaufdatum der Mitgliedschaft","Mitgliedstyp","Bezugsquelle"'
+memberFile = init_file(filename, header)
+i = 0
 
 for membership in $members
+	i += 1
+	# rotate the file
+	if i % $max_entries_per_file == 0
+		memberFile.close()
+		extension = '.' + (i / $max_entries_per_file).to_s
+		memberFile = init_file(filename + extension, header)
+	end
+
 	memberFile.write( '"' + membership['email'] + '",')
 	memberFile.write( '"' + membership['start'] + '",')
 	if membership['end']
