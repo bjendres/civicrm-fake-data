@@ -64,7 +64,7 @@ end
 # write contacts
 print "Writing 'contacts.csv'..."
 filename = "contacts.csv"
-header = '"Vorname","Nachname","Email","Straße","PLZ","Ort","Land","Telefon(home)","Telefon(mobil)"'
+header = '"Vorname","Nachname","Email","Straße","Postleitzahl","Stadt","Land","Telefon (Phone)","Telefon (Mobile)"'
 contactsFile = init_file(filename, header)
 for i in 1..$contact_count
 	# rotate the file
@@ -102,7 +102,7 @@ print "done.\n"
 # write organizations
 print "Writing 'organizations.csv'..."
 filename = "organizations.csv"
-header = '"Email","Name","Straße","PLZ","Ort","Land","Telefon","Fax","Website","Quelle","Ansprechpartner_Vorname","Ansprechpartner_Nachname","Ansprechpartner_Email","Ansprechpartner_Straße","Ansprechpartner_PLZ","Ansprechpartner_Ort","Ansprechpartner_Land","Ansprechpartner_Telefon(home)","Ansprechpartner_Berufsbezeichnung","Ansprechpartner_Quelle"'
+header = '"Email","Organisationsname","Straße","Postleitzahl","Stadt","Land","Telefon","Telefon (Fax)","Website","Bezugsquelle","Ansprechpartner_Vorname","Ansprechpartner_Nachname","Ansprechpartner_Email","Ansprechpartner_Straße","Ansprechpartner_PLZ","Ansprechpartner_Ort","Ansprechpartner_Land","Ansprechpartner_Telefon(home)","Ansprechpartner_Berufsbezeichnung","Ansprechpartner_Quelle"'
 organizationsFile = init_file(filename, header)
 for i in 1..$organization_count
 	# rotate the file
