@@ -149,7 +149,8 @@ contribFile.write("\n")
 for email in $contributors
 	if SecureRandom.random_number <= $contribution_member
 		# this is a member
-		since_months = SecureRandom.random_number($contribution_timespan)
+		# since_months must not be 0
+		since_months = SecureRandom.random_number($contribution_timespan) + 1
 		if SecureRandom.random_number <= 0.8
 			# is still a member
 			until_months = 0
