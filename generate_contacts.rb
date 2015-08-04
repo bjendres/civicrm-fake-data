@@ -1,4 +1,5 @@
 #!/usr/bin/ruby
+# encoding: utf-8
 
 =begin	license
 This script generates Fake data for import into CiviCRM
