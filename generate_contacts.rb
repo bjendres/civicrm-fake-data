@@ -169,13 +169,6 @@ contribFile = init_file(filename, header)
 i = 0
 
 for email in $contributors
-	i += 1
-	# rotate the file
-	if i % $max_entries_per_file == 0
-		contribFile.close()
-		extension = '.' + (i / $max_entries_per_file).to_s
-		contribFile = init_file(filename + extension, header)
-	end
 
 	if SecureRandom.random_number <= $contribution_member
 		# this is a member
@@ -198,6 +191,15 @@ for email in $contributors
 		$members.push(membership)
 		
 		for month_back in until_months..since_months
+
+			i += 1
+			# rotate the file
+			if i % $max_entries_per_file == 0
+				contribFile.close()
+				extension = '.' + (i / $max_entries_per_file).to_s
+				contribFile = init_file(filename + extension, header)
+			end
+
 			date = Date.new($now.year, $now.month, 1) << month_back
 			date = date + SecureRandom.random_number(2)
 			date = date - SecureRandom.random_number(2)
@@ -215,6 +217,16 @@ for email in $contributors
 		# this is a small amounts donor
 		donation_count = SecureRandom.random_number($contribution_timespan/2)
 		for donation in 1..donation_count
+
+			i += 1
+			# rotate the file
+			if i % $max_entries_per_file == 0
+				contribFile.close()
+				extension = '.' + (i / $max_entries_per_file).to_s
+				contribFile = init_file(filename + extension, header)
+			end
+
+			date = Date.new($now.year, $now.month, $now.day) - SecureRandom.random_number($contribution_timespan*30)
 			date = Date.new($now.year, $now.month, $now.day) - SecureRandom.random_number($contribution_timespan*30)
 			amount = 2 + 2 * SecureRandom.random_number(100)	# donates between 2 and 200 €
 			contribFile.write( '"' + email + '",')
@@ -231,6 +243,15 @@ for email in $contributors
 		# this is a big amounts donor
 		donation_count = SecureRandom.random_number($contribution_timespan/12)
 		for donation in 1..donation_count
+
+			i += 1
+			# rotate the file
+			if i % $max_entries_per_file == 0
+				contribFile.close()
+				extension = '.' + (i / $max_entries_per_file).to_s
+				contribFile = init_file(filename + extension, header)
+			end
+
 			date = Date.new($now.year, $now.month, $now.day) - SecureRandom.random_number($contribution_timespan*30)
 			amount = (10 + SecureRandom.random_number(10))*1000		# donates between 10.000 and 20.000 €
 			contribFile.write( '"' + email + '",')
@@ -244,6 +265,15 @@ for email in $contributors
 	end		# big amounts donor
 
 	if SecureRandom.random_number <= $contribution_onetime
+
+		i += 1
+		# rotate the file
+		if i % $max_entries_per_file == 0
+			contribFile.close()
+			extension = '.' + (i / $max_entries_per_file).to_s
+			contribFile = init_file(filename + extension, header)
+		end
+
 		# this is a one time donor
 		date = Date.new($now.year, $now.month, $now.day) - SecureRandom.random_number($contribution_timespan*30)
 		amount = (2 + SecureRandom.random_number(1000))*100		# donates between 200 and 200.000 €
