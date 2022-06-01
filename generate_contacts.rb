@@ -152,7 +152,7 @@ for i in 1..$organization_count
 	organizationsFile.write( '"' + city + '",')
 	organizationsFile.write( '"' + $country + '",')
 	organizationsFile.write( '"' + Faker::PhoneNumber.phone_number + '",')
-	organizationsFile.write( '"' + Faker::Name.title + '",')
+	organizationsFile.write( '"RandomTitle",')
 	organizationsFile.write( '"' + $source + '"')
 	
 	organizationsFile.write( "\n" )
