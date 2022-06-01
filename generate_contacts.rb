@@ -55,7 +55,7 @@ $contribution_membership_type = "Mitglied"	# set type
 
 
 def init_file(filename, header)
-	file = File::open(filename, mode="w")
+	file = File::open(filename, mode: "w")
 	file.write(header)
 	file.write("\n")
 	return file
@@ -79,7 +79,7 @@ for i in 1..$contact_count
 	
 	# make sure, that the email addresses are unique
 	begin
-		email = Faker::Internet.email(name = last_name)
+		email = Faker::Internet.email(name: last_name)
 	end while $emails.include?(email)
 	$emails.add(email)
 	$contributors.push(email)
@@ -119,7 +119,7 @@ for i in 1..$organization_count
 	# make sure, that the organization's email addresses are unique
 	email = "info@" + domain
 	while $emails.include?(email) do
-		email = Faker::Internet.user_name(name = cname) + '@' + domain
+		email = Faker::Internet.user_name(specifier: cname) + '@' + domain
 	end
 	$emails.add(email)
 
@@ -128,7 +128,7 @@ for i in 1..$organization_count
 	
 	# make sure, that the contact's email addresses are unique
 	begin
-		contact_email = Faker::Internet.user_name(name = contact_last_name) + '@' + domain
+		contact_email = Faker::Internet.user_name(specifier: contact_last_name) + '@' + domain
 	end while $emails.include?(contact_email)
 	$emails.add(contact_email)
 	
