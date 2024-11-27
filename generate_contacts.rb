@@ -53,7 +53,6 @@ $contribution_timespan = 60					# payments reach up to 60 months (5 years) back
 $contribution_membership_fee = "50,00"		# 8,-€ membership fee
 $contribution_membership_type = "Mitglied"	# set type
 
-
 def init_file(filename, header)
 	file = File::open(filename, mode: "w")
 	file.write(header)
@@ -64,8 +63,13 @@ end
 # write contacts
 print "Writing 'contacts.csv'..."
 filename = "contacts.csv"
-header = '"Vorname","Nachname","Email","Straße","Postleitzahl","Stadt","Land","Telefon (Phone)","Telefon (Mobile)"'
+header = '"Vorname","Nachname","Geschlecht","Email","Straße","Postleitzahl","Stadt","Land","Telefon (Phone)","Telefon (Mobile)"'
 contactsFile = init_file(filename, header)
+
+# Defining weighted gender options
+genders = ["male", "female", "divers"]
+weights = [0.47, 0.48, 0.05] # 47% male, 48% female, 5% divers
+
 for i in 1..$contact_count
 	# rotate the file
 	if i % $max_entries_per_file == 0
@@ -84,8 +88,12 @@ for i in 1..$contact_count
 	$emails.add(email)
 	$contributors.push(email)
 	
+	# Generating gender with weighted probability
+	gender = genders.sample(weights: weights) # Randomly selects with weighted probability
+
 	contactsFile.write( '"' + first_name + '",')
 	contactsFile.write( '"' + last_name + '",')
+	contactsFile.write( '"' + gender + '",') # Add gender column
 	contactsFile.write( '"' + email + '",')
 	contactsFile.write( '"' + Faker::Address.street_address + '",')
 	contactsFile.write( '"' + Faker::Address.zip_code + '",')
@@ -95,6 +103,7 @@ for i in 1..$contact_count
 	contactsFile.write( '"' + Faker::PhoneNumber.cell_phone + '"')
 	contactsFile.write( "\n" )
 end
+
 contactsFile.close()
 print "done.\n"
 
