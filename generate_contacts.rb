@@ -77,7 +77,7 @@ end
 # write contacts
 print "Writing 'contacts.csv'..."
 filename = "contacts.csv"
-header = '"Vorname","Nachname","Email","Straße","Postleitzahl","Stadt","Land","Telefon (Phone)","Telefon (Mobile)","Gender"'
+header = '"Vorname","Nachname","Email","Straße","Postleitzahl","Stadt","Land","Telefon (Phone)","Telefon (Mobile)","Gender","Geburtsdatum"'
 contactsFile = init_file(filename, header)
 for i in 1..$contact_count
   # rotate the file
@@ -99,7 +99,10 @@ for i in 1..$contact_count
   end while $emails.include?(email)
   $emails.add(email)
   $contributors.push(email)
-  
+
+  # generate random birthdate between 1950 and 2010
+  birth_date = Faker::Date.between(from: '1950-01-01', to: '2010-12-31').strftime('%Y-%m-%d')
+
   contactsFile.write( '"' + first_name + '",')
   contactsFile.write( '"' + last_name + '",')
   contactsFile.write( '"' + email + '",')
@@ -109,7 +112,8 @@ for i in 1..$contact_count
   contactsFile.write( '"' + $country + '",')
   contactsFile.write( '"' + Faker::PhoneNumber.phone_number + '",')
   contactsFile.write( '"' + Faker::PhoneNumber.cell_phone + '",')
-  contactsFile.write( '"' + gender + '"') # Add gender column
+  contactsFile.write( '"' + gender + '",') 
+  contactsFile.write( '"' + birth_date + '"')
   contactsFile.write( "\n" )
 end
 contactsFile.close()
